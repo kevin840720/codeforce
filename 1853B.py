@@ -8,45 +8,63 @@
     Kevin Wang
 @Desc:
     https://codeforces.com/problemset/problem/1853/B
+
+@Notes:
+    n = f(n)*a1 + f(n-1)*a0
 """
+from math import ceil, floor
+ 
+def fib2(n):
+    if n == 1: return 1, 0
+    fn, fn_minus_1 = fib2(n-1)
+    return fn + fn_minus_1, fn
+ 
+def ext_euclid(a, b):
+    old_s, s = 1, 0
+    old_t, t = 0, 1
+    old_r, r = a, b
+    if b == 0:
+        return 1, 0, a
+    else:
+        while(r!=0):
+            q = old_r // r
+            old_r, r = r, old_r-q*r
+            old_s, s = s, old_s-q*s
+            old_t, t = t, old_t-q*t
+    return old_s, old_t, old_r # old_s*a + old_t*b = gcd(a,b)
 
-def splitting(n):
-    if n % 2 == 0:
-        m = int(n/2)
-        cand = [m+i for i in range(m+1)]
-    if n % 2 == 1:
-        m = int((n+1)/2)
-        cand = [m+i for i in range(m)]
-    return cand
+def problem():
+    n, k = [int(_) for _ in input().strip().split()]
+    if k > 27: 
+        print(0)
+        return
+    c1, c0 = fib2(k-1) # c1, c0 must be co-prime
+ 
+    b1, b0, _ = ext_euclid(c1, c0)
+    # b1*c1 + b0*c0 = 1
 
-def solve_len(aMax, amax):
-    if amax >= aMax-amax >= 0:
-        return 1 + solve_len(amax, aMax-amax)
-    return 2
+    # Note that
+    # n = c1*(b1*n) + c0*(b0*n)
+    #   = c1*(b1*n + k*c0) + c0*(b0*n - k*c1) for all k
 
-def bisect(cand):
-    a = solve_len(cand[0])
-    b = solve_len(cand[-1]) # always 3
+    # So we take a1, a0
+    # a1 = b1*n + k*c0
+    # a0 = b0*n - k*c1
 
-N = 18
-print(splitting(N))
-for i in splitting(N):
-    print(i, solve_len(N, i))
+    # And by question, we have following constraint
+    # w.r.t a1 >= a0 >= 0
 
-# def problem():
-#     n, k = [int(_) for _ in input().strip().split()]
+    # Therefore, from a0 >= 0, we get k <= b0*n/c1 (note that c1 > 0)
+    #            from a1 >= a0, we get k >= (b0-b1)*n/(c1+c0) (note that c1 > 0, c0 >= 0)
 
-# t = int(input())
-# for _ in range(t):
-#     problem()
-
-
-# 8
-# 22 4
-# 3 9
-# 55 11
-# 42069 6
-# 69420 4
-# 69 1434
-# 1 3
-# 1 4
+    max_k = b0/c1*n
+    min_k = (b0-b1)/(c1+c0)*n
+    if min_k > max_k:
+        print(0)
+    else:
+        print(floor(max_k) - ceil(min_k) + 1)
+ 
+ 
+t = int(input())
+for _ in range(t):
+    problem()
