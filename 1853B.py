@@ -12,8 +12,6 @@
 @Notes:
     n = f(n)*a1 + f(n-1)*a0
 """
-from math import ceil, floor
- 
 def fib2(n):
     if n == 1: return 1, 0
     fn, fn_minus_1 = fib2(n-1)
@@ -35,7 +33,7 @@ def ext_euclid(a, b):
 
 def problem():
     n, k = [int(_) for _ in input().strip().split()]
-    if k > 27: 
+    if k > 28: 
         print(0)
         return
     c1, c0 = fib2(k-1) # c1, c0 must be co-prime
@@ -57,12 +55,12 @@ def problem():
     # Therefore, from a0 >= 0, we get k <= b0*n/c1 (note that c1 > 0)
     #            from a1 >= a0, we get k >= (b0-b1)*n/(c1+c0) (note that c1 > 0, c0 >= 0)
 
-    max_k = b0/c1*n
-    min_k = (b0-b1)/(c1+c0)*n
+    max_k = (b0*n) // c1
+    min_k = ((b0-b1)*n) // (c1+c0) + (0 if ((b0-b1)*n)%(c1+c0)==0 else 1)
     if min_k > max_k:
         print(0)
     else:
-        print(floor(max_k) - ceil(min_k) + 1)
+        print(max_k - min_k + 1)
  
  
 t = int(input())
