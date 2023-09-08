@@ -22,8 +22,7 @@ def problem():
     first_smallest = [array.pop(0) for array in arrays]
     second_smallest = [array.pop(0) for array in arrays]
 
-    print(first_smallest)
-    print(second_smallest)
+    print(sum(second_smallest) - min(second_smallest) + min(min(second_smallest), min(first_smallest)))
 
 t = int(input())
 for _ in range(t):

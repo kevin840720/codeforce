@@ -8,39 +8,33 @@
     Kevin Wang
 @Desc:
     https://codeforces.com/problemset/problem/1853/B
-
-    n = f_{k-1} * a1 + f_{k-2} * a0
-    a1 >= a0
 """
 
-def fib2(n):
-    if n == 1: return 1, 0
-    fn, fn_minus_1 = fib2(n-1)
-    return fn + fn_minus_1, fn
+def splitting(n):
+    if n % 2 == 0:
+        m = int(n/2)
+        cand = [m+i for i in range(m+1)]
+    if n % 2 == 1:
+        m = int((n+1)/2)
+        cand = [m+i for i in range(m)]
+    return cand
 
-def gen_fib(a0, a1, k):
-    if k <= 0:
-        return []
-    return [a0 + a1] + gen_fib(a1, a0+a1, k-1)
+def solve_len(aMax, amax):
+    if amax >= aMax-amax >= 0:
+        return 1 + solve_len(amax, aMax-amax)
+    return 2
 
-def problem():
-    n, k = [int(_) for _ in "200000 84".strip().split()]
-    c1, c0 = fib2(k-1)
+def bisect(cand):
+    a = solve_len(cand[0])
+    b = solve_len(cand[-1]) # always 3
 
-    cand = []
-    for i in range(n):
-        a0 = i
-        a1 = (n - c0*a0)/c1
-        if not (a1 >= a0 >= 0):
-            break
-        if a1 % 1 == 0:
-            cand.append((a0, a1))
-    
-    print(len(cand))
-    # for a0, a1 in cand:
-    #     ans = [a0, a1] + gen_fib(a0, a1, k-2)
-    #     print(" ".join([str(int(_)) for _ in ans]))
+N = 18
+print(splitting(N))
+for i in splitting(N):
+    print(i, solve_len(N, i))
 
+# def problem():
+#     n, k = [int(_) for _ in input().strip().split()]
 
 # t = int(input())
 # for _ in range(t):
