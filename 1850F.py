@@ -23,9 +23,8 @@ for _ in range(int(input())):
     for frog, count in enumerate(frog_counts):
         if frog == 0:
             continue
-        for pos in range(frog, n+1):
-            if pos%frog==0:
-                visit_counts[pos] += count
+        for pos in range(frog, n+1, frog):
+            visit_counts[pos] += count
 
     print(max(visit_counts))
 
