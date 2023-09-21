@@ -9,19 +9,27 @@
 @Desc:
     https://codeforces.com/contest/1850/problem/G
 """
+
 import sys
 input = sys.stdin.readline
-
+from collections import defaultdict
 for _ in range(int(input())):
     n = int(input().strip())
-    points = [list(map(int, input().split())) for _ in range(n)]
-    count = 0
-    for i in range(n-1):
-        for j in range(i+1, n):
-            if (points[i][0]==points[j][0]) or (points[i][1]==points[j][1]):
-                count += 2
-            elif abs(points[j][1]-points[i][1]) == abs(points[j][0]-points[i][0]):
-                count += 2
-    print(count)
+    count = {"x":defaultdict(int),
+             "y":defaultdict(int),
+             "x+y":defaultdict(int),
+             "x-y":defaultdict(int)}
+    for i in range(n):
+        x, y = map(int, input().split())
+        count["x"][x] += 1
+        count["y"][y] += 1
+        count["x+y"][x+y] += 1
+        count["x-y"][x-y] += 1
 
+    total = 0
+    for axis in count:
+        for v in count[axis].values():
+            if v > 1:
+                total += v*(v-1)
+    print(total)
 
