@@ -12,20 +12,15 @@
 import sys
 input = sys.stdin.readline
 
-def check_direct(x_center, y_center, x, y):
-    if (y==y_center) or (x==x_center):
-        return True
-    if abs(y-y_center) == abs(x-x_center):
-        return True
-    return False
-
 for _ in range(int(input())):
     n = int(input().strip())
     points = [list(map(int, input().split())) for _ in range(n)]
     count = 0
     for i in range(n-1):
         for j in range(i+1, n):
-            if check_direct(*points[i], *points[j]):
+            if (points[i][0]==points[j][0]) or (points[i][1]==points[j][1]):
+                count += 2
+            elif abs(points[j][1]-points[i][1]) == abs(points[j][0]-points[i][0]):
                 count += 2
     print(count)
 
