@@ -1,0 +1,17 @@
+8      # Using 1873D as example
+6 3    # test case 1
+WBWWWB
+7 3    # test case 2
+WWBWBWW
+5 4    # test case 3
+BWBWB
+5 5
+BBBBB
+8 2
+BWBWBBBB
+10 2
+WBBWBBWBBW
+4 1
+BBBB
+3 2
+WWW
